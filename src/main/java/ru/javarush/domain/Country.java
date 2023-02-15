@@ -2,20 +2,23 @@ package ru.javarush.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Table(schema = "world", name = "country")
 public class Country {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
 
@@ -29,16 +32,17 @@ public class Country {
     private String name;
 
     @Column(name = "continent")
-    private int continent;
+    @Enumerated(EnumType.ORDINAL)
+    private Continent continent;
 
-    @Column(name = "region",length = 26)
+    @Column(name = "region", length = 26)
     private String region;
 
     @Column(name = "surface_area")
     private BigDecimal surfaceArea;
 
     @Column(name = "indep_year")
-    private Short indepYear;
+    private Short independenceYear;
 
     @Column(name = "population")
     private int population;
@@ -50,7 +54,7 @@ public class Country {
     private BigDecimal gnp;
 
     @Column(name = "gnpo_id")
-    private BigDecimal gnpId;
+    private BigDecimal gnpoId;
 
     @Column(name = "local_name", length = 45)
     private String localName;
@@ -61,9 +65,13 @@ public class Country {
     @Column(name = "head_of_state")
     private String headOfState;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "capital")
     private City capital;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "country_id")
+    private Set<CountryLanguage> languages;
 
     public Integer getId() {
         return id;
@@ -97,11 +105,11 @@ public class Country {
         this.name = name;
     }
 
-    public int getContinent() {
+    public Continent getContinent() {
         return continent;
     }
 
-    public void setContinent(int continent) {
+    public void setContinent(Continent continent) {
         this.continent = continent;
     }
 
@@ -121,12 +129,12 @@ public class Country {
         this.surfaceArea = surfaceArea;
     }
 
-    public Short getIndepYear() {
-        return indepYear;
+    public Short getIndependenceYear() {
+        return independenceYear;
     }
 
-    public void setIndepYear(Short indepYear) {
-        this.indepYear = indepYear;
+    public void setIndependenceYear(Short independenceYear) {
+        this.independenceYear = independenceYear;
     }
 
     public int getPopulation() {
@@ -153,12 +161,12 @@ public class Country {
         this.gnp = gnp;
     }
 
-    public BigDecimal getGnpId() {
-        return gnpId;
+    public BigDecimal getGnpoId() {
+        return gnpoId;
     }
 
-    public void setGnpId(BigDecimal gnpId) {
-        this.gnpId = gnpId;
+    public void setGnpoId(BigDecimal gnpoId) {
+        this.gnpoId = gnpoId;
     }
 
     public String getLocalName() {
@@ -191,5 +199,13 @@ public class Country {
 
     public void setCapital(City capital) {
         this.capital = capital;
+    }
+
+    public Set<CountryLanguage> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(Set<CountryLanguage> languages) {
+        this.languages = languages;
     }
 }

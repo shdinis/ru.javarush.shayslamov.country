@@ -10,6 +10,7 @@ import java.util.List;
 public abstract class GenericDAO<T> {
     private final Class<T> clazz;
     private SessionFactory sessionFactory;
+
     public GenericDAO(final Class<T> clazzToSet, SessionFactory sessionFactory) {
         this.clazz = clazzToSet;
         this.sessionFactory = sessionFactory;
@@ -19,10 +20,10 @@ public abstract class GenericDAO<T> {
         return (T) getCurrentSession().get(clazz, id);
     }
 
-    public List<T> getItems(int offset, int count) {
+    public List<T> getItems(int offset, int limit) {
         Query query = getCurrentSession().createQuery("from " + clazz.getName(), clazz);
         query.setFirstResult(offset);
-        query.setMaxResults(count);
+        query.setMaxResults(limit);
         return query.getResultList();
     }
 
@@ -30,12 +31,12 @@ public abstract class GenericDAO<T> {
         return getCurrentSession().createQuery("from " + clazz.getName(), clazz).list();
     }
 
-    public T save (final T entity) {
+    public T save(final T entity) {
         getCurrentSession().saveOrUpdate(entity);
         return entity;
     }
 
-    public T update (final T entity) {
+    public T update(final T entity) {
         return (T) getCurrentSession().merge(entity);
     }
 

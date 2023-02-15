@@ -7,8 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
 
@@ -20,14 +20,15 @@ public class CountryLanguage {
     @Column(name = "id")
     private Integer id;
 
-    @OneToMany
-    @JoinColumn(name = "id")
+    @ManyToOne
+    @JoinColumn(name = "country_id")
     private Country country;
 
     @Column(name = "language", length = 30)
     private String language;
 
-    @Column(name = "is_official")
+    @Column(name = "is_official", columnDefinition = "BIT")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isOfficial;
 
     @Column(name = "percentage")
@@ -57,7 +58,7 @@ public class CountryLanguage {
         this.language = language;
     }
 
-    public boolean isOfficial() {
+    public boolean getOfficial() {
         return isOfficial;
     }
 
