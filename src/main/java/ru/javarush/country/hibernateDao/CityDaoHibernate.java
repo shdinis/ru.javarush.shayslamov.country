@@ -1,5 +1,6 @@
 package ru.javarush.country.hibernateDao;
 
+import jakarta.persistence.NoResultException;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ru.javarush.country.domain.City;
@@ -19,10 +20,18 @@ public class CityDao extends GenericDao<City> {
     }
 
     @Override
-    public City getById(int id) {
+    public City getById(Integer id) {
+        getCurrentSession().beginTransaction();
         Query<City> query = getCurrentSession()
                 .createQuery("select c from City c join fetch c.country where c.id = :ID", City.class);
         query.setParameter("ID", id);
-        return Optional.ofNullable(query.getSingleResult()).orElse(null);
+        try {
+            
+        } catch (NoResultException nre) {
+
+        }
+        City result = Optional.ofNullable(query.getSingleResult()).orElse(new City());
+        getCurrentSession().getTransaction().commit();
+        return result;
     }
 }
