@@ -3,11 +3,11 @@ package ru.javarush.country.connector;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class PrepareRelationalDb {
+public class RelationalDb implements AutoCloseable{
 
     private final SessionFactory sessionFactory;
 
-    public PrepareRelationalDb(String configureFileName) {
+    public RelationalDb(String configureFileName) {
         sessionFactory = new Configuration().configure(configureFileName).buildSessionFactory();
     }
 
@@ -15,4 +15,8 @@ public class PrepareRelationalDb {
         return this.sessionFactory;
     }
 
+    @Override
+    public void close() {
+        sessionFactory.close();
+    }
 }

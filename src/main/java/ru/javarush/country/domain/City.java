@@ -17,20 +17,20 @@ public class City {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "name", length = 35)
+    @Column(name = "name", length = 35, nullable = false)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
-    @Column(name = "district", length = 20)
+    @Column(name = "district", length = 20, nullable = false)
     private String district;
 
-    @Column(name = "population")
+    @Column(name = "population", nullable = false)
     private int population;
 
     public Integer getId() {
@@ -78,20 +78,26 @@ public class City {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         City city = (City) o;
-        return population == city.population
-                && Objects.equals(id, city.id)
+        return Objects.equals(id, city.id)
                 && Objects.equals(name, city.name)
-                && Objects.equals(country, city.country)
+                && Objects.equals(country.getName(), city.country.getName())
                 && Objects.equals(district, city.district);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-                id,
-                name,
-                country,
-                district,
-                population);
+                id);
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country=" + country.getName() +
+                ", district='" + district + '\'' +
+                ", population=" + population +
+                '}';
     }
 }

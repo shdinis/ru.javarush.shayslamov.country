@@ -20,32 +20,32 @@ import java.util.Set;
 public class Country {
     @Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "code", length = 3)
+    @Column(name = "code", length = 3, nullable = false)
     private String code;
 
-    @Column(name = "code_2", length = 2)
+    @Column(name = "code_2", length = 2, nullable = false)
     private String code2;
 
-    @Column(name = "name", length = 52)
+    @Column(name = "name", length = 52, nullable = false)
     private String name;
 
-    @Column(name = "continent")
+    @Column(name = "continent", nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private Continent continent;
 
-    @Column(name = "region", length = 26)
+    @Column(name = "region", length = 26, nullable = false)
     private String region;
 
-    @Column(name = "surface_area")
+    @Column(name = "surface_area", nullable = false)
     private BigDecimal surfaceArea;
 
     @Column(name = "indep_year")
     private Short independenceYear;
 
-    @Column(name = "population")
+    @Column(name = "population", nullable = false)
     private int population;
 
     @Column(name = "life_expectancy")
@@ -57,10 +57,10 @@ public class Country {
     @Column(name = "gnpo_id")
     private BigDecimal gnpoId;
 
-    @Column(name = "local_name", length = 45)
+    @Column(name = "local_name", length = 45, nullable = false)
     private String localName;
 
-    @Column(name = "government_form", length = 45)
+    @Column(name = "government_form", length = 45, nullable = false)
     private String governmentForm;
 
     @Column(name = "head_of_state")
@@ -230,26 +230,36 @@ public class Country {
                 && Objects.equals(localName, country.localName)
                 && Objects.equals(governmentForm, country.governmentForm)
                 && Objects.equals(headOfState, country.headOfState)
-                && Objects.equals(capital, country.capital);
+                && Objects.equals(capital, country.capital)
+                && Objects.equals(languages, country.languages);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id,
-                code,
-                code2,
-                name,
-                continent,
-                region,
-                surfaceArea,
-                independenceYear,
-                population,
-                lifeExpectancy,
-                gnp,
-                gnpoId,
-                localName,
-                governmentForm,
-                headOfState,
-                capital);
+        return Objects.hash(
+                id);
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", code2='" + code2 + '\'' +
+                ", name='" + name + '\'' +
+                ", continent=" + continent +
+                ", region='" + region + '\'' +
+                ", surfaceArea=" + surfaceArea +
+                ", independenceYear=" + independenceYear +
+                ", population=" + population +
+                ", lifeExpectancy=" + lifeExpectancy +
+                ", gnp=" + gnp +
+                ", gnpoId=" + gnpoId +
+                ", localName='" + localName + '\'' +
+                ", governmentForm='" + governmentForm + '\'' +
+                ", headOfState='" + headOfState + '\'' +
+                ", capital=" + capital +
+                ", languages=" + languages +
+                '}';
     }
 }

@@ -1,17 +1,18 @@
-package ru.javarush.country.hibernateDao;
+package ru.javarush.country.dao.hibernate;
 
 import org.hibernate.SessionFactory;
+import ru.javarush.country.dao.CountryDao;
 import ru.javarush.country.domain.Country;
 
 import java.util.List;
 
-public class CountryDao extends GenericDao<Country> {
-    public CountryDao(SessionFactory sessionFactory) {
+public class CountryDaoHibernate extends GenericDao<Country> implements CountryDao {
+    public CountryDaoHibernate(SessionFactory sessionFactory) {
         super(Country.class, sessionFactory);
     }
 
     @Override
-    public List<Country> findAll() {
+    public List<Country> getAll() {
         return getCurrentSession().createQuery("select c from Country c join fetch c.languages", Country.class).list();
     }
 }
