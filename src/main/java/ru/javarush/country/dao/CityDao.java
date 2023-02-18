@@ -10,7 +10,7 @@ public interface CityDao {
 
     List<City> getItems(int offset, int limit);
 
-    List<City> getAll();
+    List<City> getAll(CountryDao countryDao);
 
     long timeToGetDataByIdListInMySql(List<Integer> ids);
 }

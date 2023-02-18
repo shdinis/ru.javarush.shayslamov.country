@@ -5,7 +5,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ru.javarush.country.dao.CityDao;
+import ru.javarush.country.dao.CountryDao;
 import ru.javarush.country.domain.City;
+import ru.javarush.country.domain.Country;
 import ru.javarush.country.domain.CountryLanguage;
 
 import java.util.ArrayList;
@@ -46,10 +48,12 @@ public class CityDaoHibernate extends GenericDao<City> implements CityDao {
         return query.getResultList();
     }
 
-    public List<City> getAll() {
+    public List<City> getAll(CountryDao countryDao) {
         try (Session session = getCurrentSession()) {
             List<City> allCities = new ArrayList<>();
             session.beginTransaction();
+
+            List<Country> countries = countryDao.getAll();
 
             int totalCount = getTotalCount();
             for (int i = 0; i < totalCount; i += step) {

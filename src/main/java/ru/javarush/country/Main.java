@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Initialization initialization = new Initialization();
 
-        List<City> allCities = initialization.getCityDAO().getAll();
+        List<City> allCities = initialization.getCityDAO().getAll(initialization.getCountryDAO());
         List<CityCountry> preparedData = ConverterDataToRedis.Convert(allCities);
         initialization.getRedis().pushToRedis(preparedData);
 
