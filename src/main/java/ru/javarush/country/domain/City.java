@@ -1,4 +1,4 @@
-package ru.javarush.domain;
+package ru.javarush.country.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
+import java.util.Objects;
 
 @Entity
 @Table(schema = "world", name = "city")
@@ -69,5 +71,27 @@ public class City {
 
     public void setPopulation(int population) {
         this.population = population;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        City city = (City) o;
+        return population == city.population
+                && Objects.equals(id, city.id)
+                && Objects.equals(name, city.name)
+                && Objects.equals(country, city.country)
+                && Objects.equals(district, city.district);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                id,
+                name,
+                country,
+                district,
+                population);
     }
 }

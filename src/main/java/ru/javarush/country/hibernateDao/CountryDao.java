@@ -1,12 +1,12 @@
-package ru.javarush.dao;
+package ru.javarush.country.hibernateDao;
 
 import org.hibernate.SessionFactory;
-import ru.javarush.domain.Country;
+import ru.javarush.country.domain.Country;
 
 import java.util.List;
 
-public class CountryDAO extends GenericDAO<Country> {
-    public CountryDAO(SessionFactory sessionFactory) {
+public class CountryDao extends GenericDao<Country> {
+    public CountryDao(SessionFactory sessionFactory) {
         super(Country.class, sessionFactory);
     }
 

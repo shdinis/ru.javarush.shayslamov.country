@@ -1,23 +1,24 @@
-package ru.javarush.dao;
+package ru.javarush.country.hibernateDao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 
-public abstract class GenericDAO<T> {
+public abstract class GenericDao<T> {
     private final Class<T> clazz;
     private SessionFactory sessionFactory;
 
-    public GenericDAO(final Class<T> clazzToSet, SessionFactory sessionFactory) {
+    protected GenericDao(final Class<T> clazzToSet, SessionFactory sessionFactory) {
         this.clazz = clazzToSet;
         this.sessionFactory = sessionFactory;
     }
 
     public T getById(final int id) {
-        return (T) getCurrentSession().get(clazz, id);
+        return Optional.ofNullable(getCurrentSession().get(clazz, id)).orElse(null);
     }
 
     public List<T> getItems(int offset, int limit) {
@@ -45,7 +46,7 @@ public abstract class GenericDAO<T> {
     }
 
     public void deleteById(final int entityId) {
-        final T entity = getById(entityId);
+        final T entity = (T) getById(entityId);
         delete(entity);
     }
 

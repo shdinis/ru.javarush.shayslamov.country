@@ -1,12 +1,14 @@
-package ru.javarush.dao;
+package ru.javarush.country.hibernateDao;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import ru.javarush.domain.City;
+import ru.javarush.country.domain.City;
+
+import java.util.Optional;
 
 
-public class CityDAO extends GenericDAO<City> {
-    public CityDAO(SessionFactory sessionFactory) {
+public class CityDao extends GenericDao<City> {
+    public CityDao(SessionFactory sessionFactory) {
         super(City.class, sessionFactory);
     }
 
@@ -18,8 +20,9 @@ public class CityDAO extends GenericDAO<City> {
 
     @Override
     public City getById(int id) {
-        Query<City> query = getCurrentSession().createQuery("select c from City c join fetch c.country where c.id = :ID", City.class);
+        Query<City> query = getCurrentSession()
+                .createQuery("select c from City c join fetch c.country where c.id = :ID", City.class);
         query.setParameter("ID", id);
-        return query.getSingleResult();
+        return Optional.ofNullable(query.getSingleResult()).orElse(null);
     }
 }

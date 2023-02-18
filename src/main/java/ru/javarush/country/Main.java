@@ -1,4 +1,4 @@
-package ru.javarush;
+package ru.javarush.country;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,18 +9,19 @@ import io.lettuce.core.api.sync.RedisCommands;
 import io.lettuce.core.api.sync.RedisStringCommands;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import ru.javarush.connector.PrepareRelationalDb;
-import ru.javarush.dao.CityDAO;
-import ru.javarush.dao.CountryDAO;
-import ru.javarush.dao.CountryLanguageDAO;
-import ru.javarush.domain.City;
-import ru.javarush.domain.Country;
-import ru.javarush.domain.CountryLanguage;
-import ru.javarush.redis.CityCountry;
-import ru.javarush.redis.Language;
+import ru.javarush.country.connector.PrepareRelationalDb;
+import ru.javarush.country.hibernateDao.CityDao;
+import ru.javarush.country.hibernateDao.CountryDao;
+import ru.javarush.country.hibernateDao.CountryLanguageDao;
+import ru.javarush.country.domain.City;
+import ru.javarush.country.domain.Country;
+import ru.javarush.country.domain.CountryLanguage;
+import ru.javarush.country.redis.CityCountry;
+import ru.javarush.country.redis.Language;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,23 +34,27 @@ public class Main {
 
     private final ObjectMapper mapper;
 
-    private CityDAO cityDAO;
-    private CountryDAO countryDAO;
-    private CountryLanguageDAO countryLanguageDAO;
+    private CityDao cityDAO;
+    private CountryDao countryDAO;
+    private CountryLanguageDao countryLanguageDAO;
 
     public Main() {
-        sessionFactory = new PrepareRelationalDb().getSessionFactory();
+        sessionFactory = new PrepareRelationalDb("hibernate.cfg.xml").getSessionFactory();
+        for (Map.Entry<String, Object> entry : sessionFactory.getProperties().entrySet()) {
+            System.out.println(entry.getKey() + " - " + entry.getValue());
+        }
 
-        cityDAO = new CityDAO(sessionFactory);
-        countryDAO = new CountryDAO(sessionFactory);
-        countryLanguageDAO = new CountryLanguageDAO(sessionFactory);
+        cityDAO = new CityDao(sessionFactory);
+        countryDAO = new CountryDao(sessionFactory);
+        countryLanguageDAO = new CountryLanguageDao(sessionFactory);
         redisClient = prepareRedisClient();
         mapper = new ObjectMapper();
-
     }
 
     public static void main(String[] args) {
         Main main = new Main();
+
+
         List<City> allCities = main.fetchData(main);
         List<CityCountry> preparedData = main.transformData(allCities);
         main.pushToRedis(preparedData);

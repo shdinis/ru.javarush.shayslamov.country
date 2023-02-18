@@ -10,6 +10,6 @@ Launching docker
 `docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest`
 
 
-2. Expand the dump from the file: dump-hibernate-final.sql
+2. Expand the dump
 
 3. Run the code from the Main class.

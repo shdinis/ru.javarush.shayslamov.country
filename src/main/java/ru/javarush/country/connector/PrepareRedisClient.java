@@ -1,4 +1,4 @@
-package ru.javarush.connector;
+package ru.javarush.country.connector;
 
 public class PrepareRedisClient {
 

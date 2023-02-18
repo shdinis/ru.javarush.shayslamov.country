@@ -1,4 +1,4 @@
-package ru.javarush.domain;
+package ru.javarush.country.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +12,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -207,5 +208,48 @@ public class Country {
 
     public void setLanguages(Set<CountryLanguage> languages) {
         this.languages = languages;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return population == country.population
+                && Objects.equals(id, country.id)
+                && Objects.equals(code, country.code)
+                && Objects.equals(code2, country.code2)
+                && Objects.equals(name, country.name)
+                && continent == country.continent
+                && Objects.equals(region, country.region)
+                && Objects.equals(surfaceArea, country.surfaceArea)
+                && Objects.equals(independenceYear, country.independenceYear)
+                && Objects.equals(lifeExpectancy, country.lifeExpectancy)
+                && Objects.equals(gnp, country.gnp)
+                && Objects.equals(gnpoId, country.gnpoId)
+                && Objects.equals(localName, country.localName)
+                && Objects.equals(governmentForm, country.governmentForm)
+                && Objects.equals(headOfState, country.headOfState)
+                && Objects.equals(capital, country.capital);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id,
+                code,
+                code2,
+                name,
+                continent,
+                region,
+                surfaceArea,
+                independenceYear,
+                population,
+                lifeExpectancy,
+                gnp,
+                gnpoId,
+                localName,
+                governmentForm,
+                headOfState,
+                capital);
     }
 }
