@@ -3,7 +3,8 @@
 
 Launching docker
 
-1. In the terminal, execute the following commands one by one:
+1. In the terminal, run the following commands in sequence:
+it is assumed that there are no instances of these images in the docker, otherwise they need to be stopped and removed.
 
 `docker run --name mysql -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root --restart unless-stopped -v mysql:/var/lib/mysql mysql:8`
 
