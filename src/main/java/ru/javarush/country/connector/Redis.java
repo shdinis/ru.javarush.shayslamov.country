@@ -37,7 +37,7 @@ public class Redis implements AutoCloseable {
                 try {
                     sync.set(String.valueOf(cityCountry.getId()), mapper.writeValueAsString(cityCountry));
                 } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e.toString());
+                    e.toString();
                 }
             }
         }
@@ -53,7 +53,7 @@ public class Redis implements AutoCloseable {
                     if (value.isPresent()){
                     mapper.readValue(value.get(), CityCountry.class);}
                 } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e.toString());
+                    e.toString();
                 }
             }
         }

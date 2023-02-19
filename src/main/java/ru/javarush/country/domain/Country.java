@@ -230,7 +230,7 @@ public class Country {
                 && Objects.equals(localName, country.localName)
                 && Objects.equals(governmentForm, country.governmentForm)
                 && Objects.equals(headOfState, country.headOfState)
-                && Objects.equals(capital, country.capital)
+                && Objects.equals(capital.getName(), country.capital.getName())
                 && Objects.equals(languages, country.languages);
     }
 
@@ -258,7 +258,7 @@ public class Country {
                 ", localName='" + localName + '\'' +
                 ", governmentForm='" + governmentForm + '\'' +
                 ", headOfState='" + headOfState + '\'' +
-                ", capital=" + capital +
+                ", capital=" + capital.getName() +
                 ", languages=" + languages +
                 '}';
     }

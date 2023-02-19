@@ -3,16 +3,16 @@ package ru.javarush.country.redis;
 import java.math.BigDecimal;
 
 public class Language {
-    private String language;
+    private String title;
     private Boolean isOfficial;
     private BigDecimal percentage;
 
-    public String getLanguage() {
-        return language;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Boolean getOfficial() {

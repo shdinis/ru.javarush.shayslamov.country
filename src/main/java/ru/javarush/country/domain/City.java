@@ -80,7 +80,7 @@ public class City {
         City city = (City) o;
         return Objects.equals(id, city.id)
                 && Objects.equals(name, city.name)
-                && Objects.equals(country.getName(), city.country.getName())
+                && Objects.equals(country, city.country)
                 && Objects.equals(district, city.district);
     }
 
@@ -95,7 +95,7 @@ public class City {
         return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", country=" + country.getName() +
+                ", country=" + country +
                 ", district='" + district + '\'' +
                 ", population=" + population +
                 '}';

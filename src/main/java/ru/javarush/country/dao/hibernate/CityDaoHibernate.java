@@ -15,24 +15,27 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class CityDaoHibernate extends GenericDao<City> implements CityDao {
+public class CityDaoHibernate implements CityDao {
+
+    private final SessionFactory sessionFactory;
 
     private int step = 500;
 
     public CityDaoHibernate(SessionFactory sessionFactory) {
-        super(City.class, sessionFactory);
+        this.sessionFactory = sessionFactory;
     }
 
     public int getTotalCount() {
-        Query<Long> query = getCurrentSession().createQuery("select count(c) from City c", Long.class);
+        Query<Long> query = getCurrentSession()
+                .createQuery("select count(c) from City c", Long.class);
         return Math.toIntExact(query.uniqueResult());
     }
 
     public Optional<City> getById(Integer id) {
+        Optional<City> result;
         Query<City> query = getCurrentSession()
                 .createQuery("select c from City c join fetch c.country where c.id = :ID", City.class);
         query.setParameter("ID", id);
-        Optional<City> result;
         try {
             result = Optional.ofNullable(query.getSingleResult());
         } catch (NoResultException e) {
@@ -42,7 +45,8 @@ public class CityDaoHibernate extends GenericDao<City> implements CityDao {
     }
 
     public List<City> getItems(int offset, int limit) {
-        Query query = getCurrentSession().createQuery("from City", City.class);
+        Query<City> query = getCurrentSession()
+                .createQuery("from City", City.class);
         query.setFirstResult(offset);
         query.setMaxResults(limit);
         return query.getResultList();
@@ -67,7 +71,9 @@ public class CityDaoHibernate extends GenericDao<City> implements CityDao {
     public long timeToGetDataByIdListInMySql(List<Integer> ids) {
         long startMysql = System.currentTimeMillis();
         try (Session session = getCurrentSession()) {
+            if(!session.getTransaction().isActive()) {
             session.beginTransaction();
+            }
             for (Integer id : ids) {
                 Optional<City> city = getById(id);
                 if (city.isPresent()) {
@@ -78,5 +84,9 @@ public class CityDaoHibernate extends GenericDao<City> implements CityDao {
         }
         long stopMysql = System.currentTimeMillis();
         return stopMysql - startMysql;
+    }
+
+    public Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
     }
 }
